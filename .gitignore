@@ -1,2 +1,10 @@
 *.mp4
 *.part
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/

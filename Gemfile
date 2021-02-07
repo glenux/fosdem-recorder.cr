@@ -2,12 +2,8 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+# git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# gem "rails"
+# Specify your gem's dependencies in fosdem.gemspec
+gemspec
 
-gem "thor", "~> 1.1"
-
-gem "mechanize", "~> 2.7"
-
-gem "colorize", "~> 0.8.1"
