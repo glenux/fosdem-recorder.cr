@@ -1,21 +1,33 @@
+# frozen_string_literal: true
 
+# Cli part of FosdemRecorder
 module FosdemRecorder
   # Fosdem Cli - Download and cut streams video
   class Cli < Thor
     desc 'info URL', 'Get information about URL'
     def info(url)
       meta = _get_meta(url)
-      puts meta[:title]
-      puts "* start      = #{meta[:start_str]}"
-      puts "* stop       = #{meta[:stop_str]}"
-      puts "* length     = #{meta[:duration_str]}"
-      puts "* stream url = #{meta[:stream_url]}"
+      puts meta[:title].green
+      puts "* event start  = #{meta[:event_start]}"
+      puts "* event stop   = #{meta[:event_stop]}"
+      puts "* event length = #{meta[:duration_str]}"
+      puts "* stream url   = #{meta[:stream_url]}"
     end
 
     desc 'download URL', 'Download conference described at URL'
     def download(url)
       meta = _get_meta(url)
-      cmd = "echo ffmpeg -i #{meta[:stream_url]} -c copy -t #{meta[:duration_str]} \"#{meta[:title_sane]}.mp4\" | at #{meta[:start_str]}"
+
+      localtime = meta[:event_start].localtime
+      timeformat = format(
+        '%<hours>02d:%<minutes>02d %<year>d-%<month>02d-%<day>02d',
+        hours: localtime.hour,
+        minutes: localtime.min,
+        year: localtime.year,
+        month: localtime.month,
+        day: localtime.day
+      )
+      cmd = "echo ffmpeg -i #{meta[:stream_url]} -c copy -t #{meta[:duration_str]} \"#{meta[:title_sane]}.mp4\" | at #{timeformat}"
       puts "Command: #{cmd}".yellow
       system cmd
     end
@@ -30,6 +42,7 @@ module FosdemRecorder
     end
 
     def _get_meta(url)
+      puts "Loading data from #{url}".yellow
       mechanize = Mechanize.new
       page = mechanize.get(url)
 
@@ -46,7 +59,7 @@ module FosdemRecorder
         .at('.side-box .icon-play')
         .parent
         .at('.value-title')
-        .text
+        .attr('title')
         .strip
 
       play_start = Time.parse(play_start_str)
@@ -56,7 +69,8 @@ module FosdemRecorder
         .at('.side-box .icon-stop')
         .parent
         .at('.value-title')
-        .text.strip
+        .attr('title')
+        .strip
 
       play_stop = Time.parse(play_stop_str)
 
@@ -81,11 +95,12 @@ module FosdemRecorder
         title: title,
         title_sane: title_sane,
         stream_url: stream_url,
-        start_str: play_start_str,
-        stop_str: play_stop_str,
+        event_start: play_start,
+        event_stop: play_stop,
+        event_start_str: play_start_str,
+        event_stop_str: play_stop_str,
         duration_str: duration_str
       }
     end
   end
-
 end
