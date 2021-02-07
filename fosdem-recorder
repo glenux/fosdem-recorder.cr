@@ -16,7 +16,7 @@ class FosdemCli < Thor
     puts "* start = #{meta[:start_str]}"
     puts "* stop = #{meta[:stop_str]}"
     puts "* diff = #{meta[:duration_str]}"
-    puts "* url = #{stream_url}"
+    puts "* url = #{meta[:stream_url]}"
   end
 
   desc 'download URL', 'Download conference described at URL'
