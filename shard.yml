@@ -1,0 +1,25 @@
+name: fosdem-recorder-cr
+version: 0.1.0
+
+authors:
+  - Glenn Y. Rolland <glenux@glenux.net>
+
+description: |
+  A naïve recorder for FOSDEM streams
+
+dependencies:
+  mechanize:
+    github: Kanezoh/mechanize.cr
+    commit: be4d845
+    # branch: master
+    # tag: "0.2.0"
+
+targets:
+  fosdem-recorder:
+    main: src/main.cr
+
+# development_dependencies:
+#   webmock:
+#     github: manastech/webmock.cr
+
+license: LGPL-3

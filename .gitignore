@@ -1,3 +1,5 @@
+/bin
+/lib/*
 *.mp4
 *.part
 /.bundle/
