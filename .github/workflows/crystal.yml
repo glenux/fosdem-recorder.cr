@@ -43,8 +43,8 @@ jobs:
 
     - name: Install project dependencies
       run: shards install
-    - name: Run tests
-      run: crystal build
+    - name: Run build
+      run: shards build
 
   deliver:
     runs-on: ubuntu-latest
