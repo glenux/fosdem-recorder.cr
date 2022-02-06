@@ -21,7 +21,7 @@ jobs:
     - name: Install system dependencies
       run: |
         apt-get update
-        apt-get install -y cmake g++-9 gcc-9 
+        apt-get install -y cmake build-essential g++-9 gcc-9 
     - name: Install project dependencies
       run: shards install
     - name: Run tests
@@ -39,7 +39,7 @@ jobs:
     - name: Install system dependencies
       run: |
         apt-get update
-        apt-get install -y cmake g++-9 gcc-9 
+        apt-get install -y cmake build-essential g++-9 gcc-9 
 
     - name: Install project dependencies
       run: shards install
